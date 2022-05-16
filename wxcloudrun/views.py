@@ -91,7 +91,7 @@ def cake_get_by_id():
         return make_err_response('此数据不存在')
 
 
-@app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
+@app.route('/api/cake/get_by_botid_and_name', methods=['GET'])
 def cake_get_by_botid_and_name():
     """
     :return:计数结果/清除结果
