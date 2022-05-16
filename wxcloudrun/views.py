@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import render_template, request
 from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
+from wxcloudrun.dao_cakes import query_cakebyid
 from wxcloudrun.model import Counters
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
 
@@ -77,12 +78,12 @@ def cake_get_by_id():
 
     id = params['id']
 
-    return make_succ_response(id)
+    if id is None:
+        return make_err_response('参数错误！')
 
+    cake = query_cakebyid(id)
 
-    # cake = query_counterbyid(id)
-    #
-    # if cake is not None:
-    #     return make_succ_response(cake)
-    # else:
-    #     return make_err_response('此数据不存在')
+    if cake is not None:
+        return make_succ_response(cake)
+    else:
+        return make_err_response('此数据不存在')
