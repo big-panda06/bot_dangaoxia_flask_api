@@ -91,7 +91,7 @@ def cake_get_by_id():
 
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
-def query_cake_by_botid_and_name():
+def cake_get_by_botid_and_name():
     """
     :return:计数结果/清除结果
     """
@@ -106,6 +106,27 @@ def query_cake_by_botid_and_name():
 
     if cake is not None:
         return make_succ_response(jsonify(cake))
+    else:
+        return make_err_response('此数据不存在')
+
+
+@app.route('/api/cake/get_by_botid_and_name2', methods=['POST'])
+def cake_get_by_botid_and_name2():
+    """
+    :return:计数结果/清除结果
+    """
+
+    # 获取请求体参数
+    params = request.get_json()
+
+    bot_id = params['bot_id']
+    name = params['name']
+
+    cake = query_cake_by_botid_and_name(bot_id, name)
+
+    if cake is not None:
+        rep = {'cake_price': cake.price}
+        return make_succ_response(rep)
     else:
         return make_err_response('此数据不存在')
 
