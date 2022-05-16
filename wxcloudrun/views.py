@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from flask import render_template, request, jsonify
 from run import app
@@ -110,7 +111,7 @@ def cake_get_by_botid_and_name():
         return make_err_response('此数据不存在')
 
 
-@app.route('/api/cake/get_by_botid_and_name2', methods=['POST'])
+@app.route('/api/cake/get_by_botid_and_name2', methods=['GET'])
 def cake_get_by_botid_and_name2():
     """
     :return:计数结果/清除结果
@@ -118,6 +119,8 @@ def cake_get_by_botid_and_name2():
 
     # 获取请求体参数
     params = request.get_json()
+
+    logging.INFO(params)
 
     bot_id = params['bot_id']
     name = params['name']
