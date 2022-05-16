@@ -64,3 +64,22 @@ def get_count():
     """
     counter = Counters.query.filter(Counters.id == 1).first()
     return make_succ_response(0) if counter is None else make_succ_response(counter.count)
+
+
+@app.route('/api/cake/get_by_id', methods=['POST'])
+def cake_get_by_id():
+    """
+    :return:计数结果/清除结果
+    """
+
+    # 获取请求体参数
+    params = request.get_json()
+
+    id = params['id']
+
+    cake = query_counterbyid(id)
+
+    if cake is not None:
+        return make_succ_response(cake)
+    else:
+        return make_err_response('此数据不存在')
