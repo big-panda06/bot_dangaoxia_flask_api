@@ -1,5 +1,6 @@
 import logging
 
+from sqlalchemy import and_
 from sqlalchemy.exc import OperationalError
 
 from wxcloudrun import db
@@ -24,7 +25,8 @@ def query_cakebyid(id):
 
 def query_cake_by_botid_and_name(bot_id, name):
     try:
-        return Cakes.query.filter(Cakes.bot_id == bot_id and Cakes.name == name).first()
+        # return Cakes.query.filter(Cakes.bot_id == bot_id and Cakes.name == name).first()
+        return Cakes.query.filter(and_(Cakes.bot_id == 'ed', Cakes.name == 'ed jones')).first()
     except OperationalError as e:
         logger.info("query_cake_by_botid_and_name errorMsg= {} ".format(e))
         return None
