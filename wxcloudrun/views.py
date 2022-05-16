@@ -87,7 +87,7 @@ def cake_get_by_id():
     print('cake', cake)
 
     if cake is not None:
-        return make_succ_response(jsonify(cake))
+        return make_succ_response(cake)
     else:
         return make_err_response('此数据不存在')
 
@@ -107,7 +107,6 @@ def query_cake_by_botid_and_name():
     cake = query_cake_by_botid_and_name(id)
 
     if cake is not None:
-        print('cake', cake)
         return make_succ_response(jsonify(cake))
     else:
         return make_err_response('此数据不存在')
