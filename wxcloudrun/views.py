@@ -77,9 +77,11 @@ def cake_get_by_id():
 
     id = params['id']
 
-    cake = query_counterbyid(id)
+    return make_succ_response(id)
 
-    if cake is not None:
-        return make_succ_response(cake)
-    else:
-        return make_err_response('此数据不存在')
+    # cake = query_counterbyid(id)
+    #
+    # if cake is not None:
+    #     return make_succ_response(cake)
+    # else:
+    #     return make_err_response('此数据不存在')
