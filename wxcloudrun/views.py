@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
 from wxcloudrun.dao_cakes import query_cakebyid, query_cake_by_botid_and_name, insert_cake
@@ -84,10 +84,10 @@ def cake_get_by_id():
         return make_err_response('参数错误！')
 
     cake = query_cakebyid(id)
+    print('cake', cake)
 
     if cake is not None:
-        rep = {"price": cake.price}
-        return make_succ_response(rep)
+        return make_succ_response(jsonify(cake))
     else:
         return make_err_response('此数据不存在')
 
@@ -107,8 +107,8 @@ def query_cake_by_botid_and_name():
     cake = query_cake_by_botid_and_name(id)
 
     if cake is not None:
-        rep = {"price": cake.price}
-        return make_succ_response(rep)
+        print('cake', cake)
+        return make_succ_response(jsonify(cake))
     else:
         return make_err_response('此数据不存在')
 
