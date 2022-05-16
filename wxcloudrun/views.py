@@ -79,6 +79,7 @@ def cake_get_by_id():
 
     return make_succ_response(id)
 
+
     # cake = query_counterbyid(id)
     #
     # if cake is not None:
