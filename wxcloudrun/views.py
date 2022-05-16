@@ -2,8 +2,9 @@ from datetime import datetime
 from flask import render_template, request
 from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
-from wxcloudrun.dao_cakes import query_cakebyid
+from wxcloudrun.dao_cakes import query_cakebyid, query_cake_by_botid_and_name, insert_cake
 from wxcloudrun.model import Counters
+from wxcloudrun.model import Cakes
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
 
 
@@ -87,3 +88,46 @@ def cake_get_by_id():
         return make_succ_response(cake)
     else:
         return make_err_response('此数据不存在')
+
+
+@app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
+def query_cake_by_botid_and_name():
+    """
+    :return:计数结果/清除结果
+    """
+
+    # 获取请求体参数
+    params = request.get_json()
+
+    bot_id = params['bot_id']
+    name = params['name']
+
+    cake = query_cake_by_botid_and_name(id)
+
+    if cake is not None:
+        return make_succ_response(cake)
+    else:
+        return make_err_response('此数据不存在')
+
+
+@app.route('/api/cake/add', methods=['POST'])
+def cake_add():
+    """
+    :return:计数结果/清除结果
+    """
+
+    # 获取请求体参数
+    params = request.get_json()
+
+    bot_id = params['bot_id']
+    name = params['name']
+    price = params['price']
+
+    cake = Cakes()
+    cake.bot_id = bot_id
+    cake.name = name
+    cake.price = price
+    cake.created_at = datetime.now()
+    cake.updated_at = datetime.now()
+    insert_cake(cake)
+    return make_succ_response('插入成功')
