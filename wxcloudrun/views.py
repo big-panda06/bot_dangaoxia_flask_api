@@ -75,12 +75,8 @@ def get_count():
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['GET'])
 def cake_get_by_botid_and_name():
-    price = 0
     bot_id = request.args.get('bot_id')
     name = request.args.get('name')
-
-    data = [{'cake_price': price}, {'bot_id': bot_id}, {'name': name}]
-    return make_succ_response(data)
 
     cake = query_cake_by_botid_and_name(bot_id, name)
 
