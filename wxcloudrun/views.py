@@ -96,7 +96,7 @@ def cake_get_by_botid_and_name():
         name = request.values.get("name")
         price = 4
 
-    data = [{'cake_price': price}, {'content_type': request.content_type}, {'bot_id': bot_id}, {'name': name}]
+    data = [{'cake_price': price}, {'content_type': request.content_type}, {'bot_id': bot_id}, {'name': name}, {'request': request}]
     return make_succ_response(data)
 
     cake = query_cake_by_botid_and_name(bot_id, name)
