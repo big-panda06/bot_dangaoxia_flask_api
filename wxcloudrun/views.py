@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime
 from flask import render_template, request, jsonify
@@ -80,6 +81,11 @@ def cake_get_by_botid_and_name():
     elif request.content_type.startswith('multipart/form-data'):
         bot_id = request.form.get('bot_id')
         name = request.form.get('name')
+    elif request.content_type.startswith('text/plain'):
+        raw_data = request.data
+        json_data = json.loads(raw_data.decode())
+        bot_id = json_data.get('bot_id')
+        name = json_data.get('name')
     else:
         bot_id = request.values.get("bot_id")
         name = request.values.get("name")
