@@ -103,16 +103,15 @@ def cake_get_by_botid_and_name():
     :return:计数结果/清除结果
     """
 
-    if request.content_type.startswith('application/json'):
-        bot_id = request.json.get('bot_id')
-        name = request.json.get('name')
-    elif request.content_type.startswith('multipart/form-data'):
-        bot_id = request.form.get('bot_id')
-        name = request.form.get('name')
-    else:
-        bot_id = request.values.get("bot_id")
-        name = request.values.get("name")
-
+    # if request.content_type.startswith('application/json'):
+    #     bot_id = request.json.get('bot_id')
+    #     name = request.json.get('name')
+    # elif request.content_type.startswith('multipart/form-data'):
+    #     bot_id = request.form.get('bot_id')
+    #     name = request.form.get('name')
+    # else:
+    bot_id = request.values.get("bot_id")
+    name = request.values.get("name")
     logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
     logger.info("cake_get_by_botid_and_name name= {} ".format(name))
 
