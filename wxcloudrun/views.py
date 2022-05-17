@@ -8,6 +8,9 @@ from wxcloudrun.model import Counters
 from wxcloudrun.model import Cakes
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
 
+# 初始化日志
+logger = logging.getLogger('log')
+
 
 @app.route('/')
 def index():
@@ -26,12 +29,12 @@ def count():
     # 获取请求体参数
     params = request.get_json()
 
+    # 按照不同的action的值，进行不同的操作
+    action = params['action']
+
     # 检查action参数
     if 'action' not in params:
         return make_err_response('缺少action参数')
-
-    # 按照不同的action的值，进行不同的操作
-    action = params['action']
 
     # 执行自增操作
     if action == 'inc':
@@ -80,12 +83,15 @@ def cake_get_by_id():
 
     id = params['id']
 
+    logger.info("cake_get_by_id id= {} ".format(id))
+
     if id is None:
         return make_err_response('参数错误！')
 
     cake = query_cakebyid(id)
 
     if cake is not None:
+        logger.info("cake_get_by_id cake.price= {} ".format(cake.price))
         return make_succ_response(cake.price)
     else:
         return make_err_response('此数据不存在')
@@ -101,6 +107,9 @@ def cake_get_by_botid_and_name():
     bot_id = request.args.get('bot_id')
     name = request.args.get('name')
 
+    logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
+    logger.info("cake_get_by_botid_and_name name= {} ".format(name))
+
     cake = query_cake_by_botid_and_name(bot_id, name)
 
     if cake is not None:
@@ -110,7 +119,7 @@ def cake_get_by_botid_and_name():
         return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
 
 
-@app.route('/api/cake/get_by_botid_and_name2', methods=['GET'])
+@app.route('/api/cake/get_by_botid_and_name2', methods=['Post'])
 def cake_get_by_botid_and_name2():
     """
     :return:计数结果/清除结果
@@ -124,10 +133,10 @@ def cake_get_by_botid_and_name2():
     cake = query_cake_by_botid_and_name(bot_id, name)
 
     if cake is not None:
-        rep = {'cake_price': cake.price}
-        return make_succ_response(rep)
+        data = {'cake_price': cake.price}
+        return jsonify({'err_code': 0, 'data_list': data})
     else:
-        return make_err_response('此数据不存在')
+        return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
 
 
 @app.route('/api/cake/add', methods=['POST'])
