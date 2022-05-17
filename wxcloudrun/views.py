@@ -74,10 +74,15 @@ def get_count():
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
-
-    params = request.get_json()
-    bot_id = params['bot_id']
-    name = params['name']
+    if request.content_type.startswith('application/json'):
+        bot_id = request.json.get('bot_id')
+        name = request.json.get('name')
+    elif request.content_type.startswith('multipart/form-data'):
+        bot_id = request.form.get('bot_id')
+        name = request.form.get('name')
+    else:
+        bot_id = request.values.get("bot_id")
+        name = request.values.get("name")
 
     cake = query_cake_by_botid_and_name(bot_id, name)
 
