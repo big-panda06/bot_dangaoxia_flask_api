@@ -97,38 +97,24 @@ def cake_get_by_id():
         return make_err_response('此数据不存在')
 
 
-@app.route('/api/cake/get_by_botid_and_name', methods=['GET'])
+@app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
     """
     :return:计数结果/清除结果
     """
 
-    # 获取请求体参数
-    bot_id = request.args.get('bot_id')
-    name = request.args.get('name')
+    if request.content_type.startswith('application/json'):
+        bot_id = request.json.get('bot_id')
+        name = request.json.get('name')
+    elif request.content_type.startswith('multipart/form-data'):
+        bot_id = request.form.get('bot_id')
+        name = request.form.get('name')
+    else:
+        bot_id = request.values.get("bot_id")
+        name = request.values.get("name")
 
     logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
     logger.info("cake_get_by_botid_and_name name= {} ".format(name))
-
-    cake = query_cake_by_botid_and_name(bot_id, name)
-
-    if cake is not None:
-        data = {'cake_price': cake.price}
-        return jsonify({'err_code': 0, 'data_list': data})
-    else:
-        return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
-
-
-@app.route('/api/cake/get_by_botid_and_name2', methods=['Post'])
-def cake_get_by_botid_and_name2():
-    """
-    :return:计数结果/清除结果
-    """
-
-    # 获取请求体参数
-    params = request.get_json()
-    bot_id = params['bot_id']
-    name = params['name']
 
     cake = query_cake_by_botid_and_name(bot_id, name)
 
