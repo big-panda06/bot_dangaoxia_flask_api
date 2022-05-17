@@ -103,25 +103,21 @@ def cake_get_by_botid_and_name():
     :return:计数结果/清除结果
     """
 
-    # if request.content_type.startswith('application/json'):
-    #     bot_id = request.json.get('bot_id')
-    #     name = request.json.get('name')
-    # elif request.content_type.startswith('multipart/form-data'):
-    #     bot_id = request.form.get('bot_id')
-    #     name = request.form.get('name')
+    data = {'cake_price': 100}
+    return jsonify({'err_code': 0, 'data_list': data})
+
+    # bot_id = request.values.get("bot_id")
+    # name = request.values.get("name")
+    # logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
+    # logger.info("cake_get_by_botid_and_name name= {} ".format(name))
+    #
+    # cake = query_cake_by_botid_and_name(bot_id, name)
+    #
+    # if cake is not None:
+    #     data = {'cake_price': cake.price}
+    #     return jsonify({'err_code': 0, 'data_list': data})
     # else:
-    bot_id = request.values.get("bot_id")
-    name = request.values.get("name")
-    logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
-    logger.info("cake_get_by_botid_and_name name= {} ".format(name))
-
-    cake = query_cake_by_botid_and_name(bot_id, name)
-
-    if cake is not None:
-        data = {'cake_price': cake.price}
-        return jsonify({'err_code': 0, 'data_list': data})
-    else:
-        return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
+    #     return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
 
 
 @app.route('/api/cake/add', methods=['POST'])
