@@ -73,7 +73,7 @@ def get_count():
     return make_succ_response(0) if counter is None else make_succ_response(counter.count)
 
 
-@app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
+@app.route('/api/cake/get_by_botid_and_name', methods=['GET'])
 def cake_get_by_botid_and_name():
     price = 0
 
@@ -92,8 +92,8 @@ def cake_get_by_botid_and_name():
         name = json_data.get('name')
         price = 3
     elif request.content_type.startswith('application/x-www-form-urlencoded'):
-        bot_id = request.form.get('bot_id')
-        name = request.form.get('name')
+        bot_id = request.args.get('bot_id')
+        name = request.args.get('name')
         price = 5
     else:
         bot_id = request.values.get("bot_id")
