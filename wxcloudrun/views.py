@@ -74,11 +74,9 @@ def get_count():
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
-    """
-    :return:计数结果/清除结果
-    """
 
-    data = {'cake_price': 100}
+    print("接口请求，/api/cake/get_by_botid_and_name")
+    data = [{'cake_price': 100}]
     return make_succ_response(data)
 
     # bot_id = request.values.get("bot_id")
