@@ -72,31 +72,6 @@ def get_count():
     return make_succ_response(0) if counter is None else make_succ_response(counter.count)
 
 
-@app.route('/api/cake/get_by_id', methods=['POST'])
-def cake_get_by_id():
-    """
-    :return:计数结果/清除结果
-    """
-
-    # 获取请求体参数
-    params = request.get_json()
-
-    id = params['id']
-
-    logger.info("cake_get_by_id id= {} ".format(id))
-
-    if id is None:
-        return make_err_response('参数错误！')
-
-    cake = query_cakebyid(id)
-
-    if cake is not None:
-        logger.info("cake_get_by_id cake.price= {} ".format(cake.price))
-        return make_succ_response(cake.price)
-    else:
-        return make_err_response('此数据不存在')
-
-
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
     """
@@ -104,7 +79,7 @@ def cake_get_by_botid_and_name():
     """
 
     data = {'cake_price': 100}
-    return jsonify({'err_code': 0, 'data_list': data})
+    return make_succ_response(data)
 
     # bot_id = request.values.get("bot_id")
     # name = request.values.get("name")
