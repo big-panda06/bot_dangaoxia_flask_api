@@ -16,7 +16,7 @@ from flask import Response
 
 
 def make_succ_empty_response():
-    data = json.dumps({'err_code': 0, 'data_list': {}})
+    data = json.dumps({'err_code': 0, 'data_list': []})
     return Response(data, content_type='application/json;charset=utf-8')
 
 

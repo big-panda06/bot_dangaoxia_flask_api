@@ -74,23 +74,18 @@ def get_count():
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
+    bot_id = request.values.get("bot_id")
+    name = request.values.get("name")
+    logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
+    logger.info("cake_get_by_botid_and_name name= {} ".format(name))
 
-    print("接口请求，/api/cake/get_by_botid_and_name")
-    data = [{'cake_price': 100}]
-    return make_succ_response(data)
+    cake = query_cake_by_botid_and_name(bot_id, name)
 
-    # bot_id = request.values.get("bot_id")
-    # name = request.values.get("name")
-    # logger.info("cake_get_by_botid_and_name bot_id= {} ".format(bot_id))
-    # logger.info("cake_get_by_botid_and_name name= {} ".format(name))
-    #
-    # cake = query_cake_by_botid_and_name(bot_id, name)
-    #
-    # if cake is not None:
-    #     data = {'cake_price': cake.price}
-    #     return jsonify({'err_code': 0, 'data_list': data})
-    # else:
-    #     return jsonify({'err_code': -1, 'data_list': None, 'err_msg': "数据不存在"})
+    if cake is not None:
+        data = [{'cake_price': 100}]
+        return make_succ_response(data)
+    else:
+        return make_err_response("不存在此数据")
 
 
 @app.route('/api/cake/add', methods=['POST'])
