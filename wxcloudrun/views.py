@@ -75,20 +75,29 @@ def get_count():
 
 @app.route('/api/cake/get_by_botid_and_name', methods=['POST'])
 def cake_get_by_botid_and_name():
+    price = 0
+
     if request.content_type.startswith('application/json'):
         bot_id = request.json.get('bot_id')
         name = request.json.get('name')
+        price = 1
     elif request.content_type.startswith('multipart/form-data'):
         bot_id = request.form.get('bot_id')
         name = request.form.get('name')
+        price = 2
     elif request.content_type.startswith('text/plain'):
         raw_data = request.data
         json_data = json.loads(raw_data.decode())
         bot_id = json_data.get('bot_id')
         name = json_data.get('name')
+        price = 3
     else:
         bot_id = request.values.get("bot_id")
         name = request.values.get("name")
+        price = 4
+
+    data = [{'cake_price': price}]
+    return make_succ_response(data)
 
     cake = query_cake_by_botid_and_name(bot_id, name)
 
