@@ -4,7 +4,7 @@ from datetime import datetime
 from flask import render_template, request, jsonify
 from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
-from wxcloudrun.dao_cakes import query_cakebyid, query_cake_by_botid_and_name, insert_cake, \
+from wxcloudrun.dao_cakes import query_cake_by_botid_and_name, insert_cake, \
     query_cakes_by_bot_and_user_type
 from wxcloudrun.model import Counters
 from wxcloudrun.model import Cakes
