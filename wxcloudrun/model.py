@@ -18,7 +18,7 @@ class Counters(db.Model):
 # 蛋糕
 class Cakes(db.Model):
     # 设置结构体表格名称
-    __tablename__ = 'Cakes'
+    __tablename__ = 'Cake'
 
     # 设定结构体对应表格的字段
     id = db.Column(db.Integer, primary_key=True)
