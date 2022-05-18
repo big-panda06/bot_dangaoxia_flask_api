@@ -84,7 +84,8 @@ def cake_get_by_botid_and_name():
     cake = query_cake_by_botid_and_name(bot_id, name)
 
     if cake is not None:
-        data = [{'cake_price': cake.price}]
+        data = [{'cake_name': cake.name, 'cake_price': cake.price,
+                 'cake_sweetness': cake.sweetness, 'cake_size': cake.size, 'cake_desc': cake.desc}]
         return make_succ_response(data)
     else:
         return make_err_response("不存在此数据")
