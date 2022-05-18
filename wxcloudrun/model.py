@@ -24,7 +24,7 @@ class Cakes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     bot_id = db.Column(db.String)
     name = db.Column(db.String)
-    price = db.Column(db.Double)
+    price = db.Column(db.Float)
     sweetness = db.Column(db.Integer, default=0)
     desc = db.Column(db.String)
     size = db.Column(db.String)
