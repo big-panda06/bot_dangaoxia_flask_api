@@ -127,6 +127,7 @@ def cake_add():
     return make_succ_response('插入成功')
 
 
+
 @app.route('/api/user_type/get_standard_user_type', methods=['GET'])
 def get_standard_user_type():
     user_type = request.args.get('user_type')
