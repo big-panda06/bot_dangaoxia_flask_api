@@ -24,7 +24,7 @@ def query_cakes_by_bot_and_user_type(bot_id, user_type):
     try:
         user_type_obj = query_user_type_by_type(user_type)
 
-        if user_type_obj is not None:
+        if user_type_obj is not None and user_type_obj.standard_user_type != '其他':
             # 查询指定用户类型的推荐列表
             return Cakes.query.filter(and_(Cakes.bot_id == bot_id, Cakes.user_type == user_type_obj.standard_user_type))
         else:
