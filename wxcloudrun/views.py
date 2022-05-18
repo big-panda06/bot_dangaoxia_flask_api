@@ -4,7 +4,8 @@ from datetime import datetime
 from flask import render_template, request, jsonify
 from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
-from wxcloudrun.dao_cakes import query_cakebyid, query_cake_by_botid_and_name, insert_cake
+from wxcloudrun.dao_cakes import query_cakebyid, query_cake_by_botid_and_name, insert_cake, \
+    query_cakes_by_bot_and_user_type
 from wxcloudrun.model import Counters
 from wxcloudrun.model import Cakes
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
@@ -82,6 +83,21 @@ def cake_get_by_botid_and_name():
 
     if cake is not None:
         data = [{'cake_price': cake.price}]
+        return make_succ_response(data)
+    else:
+        return make_err_response("不存在此数据")
+
+
+@app.route('/api/cake/get_by_bot_and_user_type', methods=['GET'])
+def get_cakes_by_bot_and_user_type():
+    bot_id = request.args.get('bot_id')
+    user_type = request.args.get('user_type')
+    cakes = query_cakes_by_bot_and_user_type(bot_id, user_type)
+    if cakes is not None:
+        data = []
+        for cake in cakes:
+            data.append({'cake_name': cake.name, 'cake_price': cake.price,
+                         'cake_sweetness': cake.sweetness, 'cake_size': cake.size, 'cake_desc': cake.desc})
         return make_succ_response(data)
     else:
         return make_err_response("不存在此数据")

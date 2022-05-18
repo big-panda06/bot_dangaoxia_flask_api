@@ -4,23 +4,11 @@ from sqlalchemy import and_
 from sqlalchemy.exc import OperationalError
 
 from wxcloudrun import db
+from wxcloudrun.dao_user_type import query_user_type_by_type
 from wxcloudrun.model import Cakes
 
 # 初始化日志
 logger = logging.getLogger('log')
-
-
-def query_cakebyid(id):
-    """
-    根据ID查询cake实体
-    :param id: cake的ID
-    :return: cake实体
-    """
-    try:
-        return Cakes.query.filter(Cakes.id == id).first()
-    except OperationalError as e:
-        logger.info("query_cakebyid errorMsg= {} ".format(e))
-        return None
 
 
 def query_cake_by_botid_and_name(bot_id, name):
@@ -32,19 +20,19 @@ def query_cake_by_botid_and_name(bot_id, name):
         return None
 
 
-def delete_cakebyid(id):
-    """
-    根据ID删除cake实体
-    :param id: cake的ID
-    """
+def query_cakes_by_bot_and_user_type(bot_id, user_type):
     try:
-        cake = Cakes.query.get(id)
-        if cake is None:
-            return
-        db.session.delete(cake)
-        db.session.commit()
+        user_type_obj = query_user_type_by_type(user_type)
+
+        if user_type_obj is not None:
+            # 查询指定用户类型的推荐列表
+            return Cakes.query.filter(and_(Cakes.bot_id == bot_id, Cakes.user_type == user_type_obj.standard_user_type))
+        else:
+            # 返回所有的蛋糕列表（通用）
+            return Cakes.query.filter(Cakes.bot_id == bot_id)
     except OperationalError as e:
-        logger.info("delete_cakebyid errorMsg= {} ".format(e))
+        logger.info("query_cakes_by_bot_and_user_type errorMsg= {} ".format(e))
+        return None
 
 
 def insert_cake(cake):
@@ -57,18 +45,3 @@ def insert_cake(cake):
         db.session.commit()
     except OperationalError as e:
         logger.info("insert_cake errorMsg= {} ".format(e))
-
-
-def update_cakebyid(cake):
-    """
-    根据ID更新cake的值
-    :param cake实体
-    """
-    try:
-        cake = query_cakebyid(cake.id)
-        if cake is None:
-            return
-        db.session.flush()
-        db.session.commit()
-    except OperationalError as e:
-        logger.info("update_cakebyid errorMsg= {} ".format(e))
