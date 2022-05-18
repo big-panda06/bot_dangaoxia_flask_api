@@ -9,7 +9,8 @@ from wxcloudrun.dao_cakes import query_cake_by_botid_and_name, insert_cake, \
 from wxcloudrun.dao_user_type import query_user_type_by_type
 from wxcloudrun.model import Counters
 from wxcloudrun.model import Cakes
-from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
+from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response, \
+    make_succ_response_with_code
 
 # 初始化日志
 logger = logging.getLogger('log')
@@ -127,7 +128,6 @@ def cake_add():
     return make_succ_response('插入成功')
 
 
-
 @app.route('/api/user_type/get_standard_user_type', methods=['GET'])
 def get_standard_user_type():
     user_type = request.args.get('user_type')
@@ -136,7 +136,23 @@ def get_standard_user_type():
 
     if user_type_obj is not None:
         data = [{'standard_user_type': user_type_obj.standard_user_type}]
-        return make_succ_response(data)
+        err_code = 0
+
+        if user_type_obj.standard_user_type == '儿子':
+            err_code = 1
+        elif user_type_obj.standard_user_type == '女儿':
+            err_code = 2
+        elif user_type_obj.standard_user_type == '男朋友':
+            err_code = 3
+        elif user_type_obj.standard_user_type == '女朋友':
+            err_code = 4
+        elif user_type_obj.standard_user_type == '长辈':
+            err_code = 5
+        else:
+            err_code = 6
+
+        return make_succ_response_with_code(data, err_code)
     else:
+        err_code = 6
         data = [{'standard_user_type': '其他'}]
-        return make_succ_response(data)
+        return make_succ_response_with_code(data, err_code)

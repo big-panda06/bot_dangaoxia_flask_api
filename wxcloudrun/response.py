@@ -25,6 +25,11 @@ def make_succ_response(data):
     return Response(data, content_type='application/json;charset=utf-8')
 
 
+def make_succ_response_with_code(data, err_code):
+    data = json.dumps({'err_code': err_code, 'data_list': data})
+    return Response(data, content_type='application/json;charset=utf-8')
+
+
 def make_err_response(err_msg):
     data = json.dumps({'err_code': -1, 'err_msg': err_msg})
     return Response(data, content_type='application/json;charset=utf-8')
