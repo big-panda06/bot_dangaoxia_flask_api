@@ -6,6 +6,7 @@ from run import app
 from wxcloudrun.dao import delete_counterbyid, query_counterbyid, insert_counter, update_counterbyid
 from wxcloudrun.dao_cakes import query_cake_by_botid_and_name, insert_cake, \
     query_cakes_by_bot_and_user_type
+from wxcloudrun.dao_user_type import query_user_type_by_type
 from wxcloudrun.model import Counters
 from wxcloudrun.model import Cakes
 from wxcloudrun.response import make_succ_empty_response, make_succ_response, make_err_response
@@ -124,3 +125,17 @@ def cake_add():
     cake.updated_at = datetime.now()
     insert_cake(cake)
     return make_succ_response('插入成功')
+
+
+@app.route('/api/user_type/get_standard_user_type', methods=['GET'])
+def get_standard_user_type():
+    user_type = request.args.get('user_type')
+
+    user_type_obj = query_user_type_by_type(user_type)
+
+    if user_type_obj is not None:
+        data = [{'standard_user_type': user_type_obj.standard_user_type}]
+        return make_succ_response(data)
+    else:
+        data = [{'standard_user_type': '其他'}]
+        return make_succ_response(data)
